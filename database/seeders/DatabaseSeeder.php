@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin Lombok',
             'email' => 'admin@wisatalombok.com',
-            'password' => bcrypt('password123')
+            'password' => bcrypt('password123'),
+            'role' => 'admin'
         ]);
 
         $this->call(WisataSeeder::class);

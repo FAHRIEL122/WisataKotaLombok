@@ -30,6 +30,7 @@ class LoginRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
+            'role' => ['required', 'string', 'in:admin,user'],
         ];
     }
 
@@ -47,6 +48,17 @@ class LoginRequest extends FormRequest
 
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
+            ]);
+        }
+
+        // Pastikan role yang login cocok dengan role yang dipilih
+        $user = Auth::user();
+        if ($user->role !== $this->role) {
+            Auth::logout();
+            RateLimiter::hit($this->throttleKey());
+
+            throw ValidationException::withMessages([
+                'email' => 'Akun Anda tidak terdaftar sebagai ' . ($this->role === 'admin' ? 'Admin' : 'Pengguna/User') . '.',
             ]);
         }
 

@@ -10,13 +10,13 @@ Route::get('/wisata/{id}', [FrontEndController::class, 'detail'])->name('wisata.
 
 use App\Http\Controllers\AdminController;
 
-// Halaman Admin (Wajib Login)
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+// Halaman Admin (Wajib Login & Role Admin)
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('wisata', WisataController::class);
 });
 
-// Route dashboard bawaan Breeze diarahkan ke AdminController
-Route::get('/dashboard', [AdminController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
+// Route dashboard bawaan Breeze diarahkan ke AdminController (Hanya untuk Admin)
+Route::get('/dashboard', [AdminController::class, 'dashboard'])->middleware(['auth', 'verified', 'admin'])->name('dashboard');
 
 // Route Auth bawaan Laravel
 require __DIR__.'/auth.php';
