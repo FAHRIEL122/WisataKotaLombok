@@ -1,59 +1,113 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Wisata Kota Lombok - Portal Informasi Pariwisata
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web portal pariwisata Kota Lombok berbasis framework **Laravel (v11)** dan frontend stack **Tailwind CSS + Vite**. Aplikasi ini dilengkapi dengan sistem manajemen konten (CMS) bagi Administrator serta halaman pencarian & detail destinasi bagi Pengunjung.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🛠️ Fitur Utama
+1. **Multi-Role Authentication (Admin & User):**
+   * **Admin:** Memiliki akses ke Dashboard statistik dan menu pengelolaan data wisata (CRUD: Tambah, Edit, Hapus data destinasi beserta unggah gambar cover & galeri foto).
+   * **User/Pengunjung:** Dapat mencari destinasi wisata, memfilter kategori, melihat detail informasi wisata (deskripsi, tarif tiket, jam operasional, galeri foto, dsb.), dan melakukan pendaftaran akun baru.
+2. **Dynamic Search & Filtering:** Pencarian berdasarkan nama/lokasi dan kategori tempat wisata secara real-time.
+3. **Galeri Pendukung Wisata:** Setiap destinasi mendukung pengunggahan banyak foto galeri sekaligus.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ⚙️ Persyaratan Sistem
+Sebelum memasang aplikasi ini, pastikan komputer Anda telah terinstal:
+* **PHP** (minimal versi 8.2)
+* **Composer** (untuk dependensi PHP)
+* **Node.js & NPM** (untuk pengelolaan aset frontend)
+* **XAMPP / MySQL Database Server**
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🚀 Langkah Pemasangan (Instalasi)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Ikuti langkah-langkah di bawah ini untuk memasang proyek ini di komputer lokal Anda:
 
-## Laravel Sponsors
+### 1. Unduh Proyek (Clone Repository)
+Buka terminal/PowerShell Anda, lalu jalankan perintah berikut:
+```bash
+git clone https://github.com/FAHRIEL122/WisataKotaLombok.git
+cd WisataKotaLombok
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. Instal Dependensi Backend & Frontend
+Instal semua library PHP dan paket Node.js yang diperlukan proyek:
+```bash
+composer install
+npm install
+```
 
-### Premium Partners
+### 3. Konfigurasi File Environment (`.env`)
+Salin file template `.env.example` menjadi `.env` baru:
+```bash
+copy .env.example .env
+```
+*(Jika di Linux/macOS, gunakan perintah `cp .env.example .env`)*
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Buka file `.env` tersebut dengan editor teks (seperti VS Code), lalu sesuaikan konfigurasi database Anda (biasanya cukup default XAMPP seperti di bawah ini):
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=wisatalombok
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## Contributing
+### 4. Generate Application Key
+Jalankan perintah ini untuk membuat key enkripsi keamanan Laravel Anda:
+```bash
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 5. Buat Database & Jalankan Migrasi + Seed Data
+1. Aktifkan modul **Apache** dan **MySQL** pada XAMPP Control Panel.
+2. Buka phpMyAdmin di browser: `http://localhost/phpmyadmin`
+3. Buat database baru dengan nama **`wisatalombok`**.
+4. Kembali ke terminal, lalu jalankan migrasi tabel database sekaligus mengisi data awal (wisata & admin):
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
 
-## Code of Conduct
+### 6. Hubungkan Penyimpanan File (Storage Link)
+Agar gambar cover dan galeri foto pariwisata yang diunggah dapat diakses oleh browser, buat symlink penyimpanan:
+```bash
+php artisan storage:link
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 💻 Cara Menjalankan Aplikasi
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Jalankan server aplikasi Laravel serta server kompilasi frontend (Vite) secara bersamaan:
 
-## License
+1. **Jalankan Server Laravel:**
+   ```bash
+   php artisan serve
+   ```
+   *Aplikasi akan berjalan di alamat: `http://127.0.0.1:8000`*
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+2. **Jalankan Server Aset Frontend (Vite):**
+   Buka terminal/tab baru di folder proyek yang sama, lalu jalankan:
+   ```bash
+   npm run dev
+   ```
+
+Sekarang, buka browser Anda dan akses alamat `http://127.0.0.1:8000`.
+
+---
+
+## 🔑 Informasi Akun Login
+
+### A. Akun Administrator (Admin)
+Digunakan untuk mengelola konten destinasi wisata.
+* **Email:** `admin@wisatalombok.com`
+* **Password:** `password123`
+
+### B. Akun Pengguna Biasa (User)
+Digunakan oleh pengunjung yang ingin masuk ke portal.
+* Pengunjung dapat **mendaftar secara mandiri** dengan mengeklik tombol **Register / Daftar Akun Baru** pada halaman login.
+* Isi formulir pendaftaran, dan Anda akan otomatis login serta diarahkan ke halaman utama portal wisata.
